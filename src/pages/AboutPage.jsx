@@ -1,12 +1,14 @@
-import { SharedVariablesProvider } from "../context/SharedVariableContextFile.jsx";
+import { useSharedVariables } from '../context/SharedVariableContextFile';
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar.jsx";
-import React from "react";
+import React, { useState, useEffect } from 'react';
 
 function AboutPage () {
-
+  const { userCreatedProfiles } = useSharedVariables();
+  useEffect(() => {
+    console.log('Current user created profiles:', userCreatedProfiles);
+  }, [userCreatedProfiles]); // This effect will run every time userCreatedProfiles changes.
     return (
-    
+      
         <div className="flex flex-col">
             <Link to="/about"> </Link>
               <div className="flex justify-center items-center px-16 py-6 w-full bg-stone-50 max-md:px-5 max-md:max-w-full">
