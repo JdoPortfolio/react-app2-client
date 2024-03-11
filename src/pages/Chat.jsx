@@ -1,5 +1,7 @@
 import { SharedVariablesProvider } from "../context/SharedVariableContextFile.jsx";
-function MatchMakerPage () {
-
+function Chat () {
+    return (
+        <Navbar/>
+    )
 }
-export default MatchMakerPage;
+export default Chat;
