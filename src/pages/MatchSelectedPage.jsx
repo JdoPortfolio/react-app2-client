@@ -1,10 +1,13 @@
 import { SharedVariablesProvider } from "../context/SharedVariableContextFile.jsx";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.jsx";
 
 
-function MatchSelectedPage() {
+const MatchSelectedPage = ({ selectedMatches, rejectedMatches, onSelect, onReject }) => {
   return (
     <div className="flex flex-col items-center">
-      <div className="self-stretch w-full bg-stone-50 min-h-[85px] max-md:max-w-full" />
+    <Navbar />
+      {/* <div className="self-stretch w-full bg-stone-50 min-h-[85px] max-md:max-w-full" /> */}
       <div className="mt-6 text-3xl font-bold text-center text-black whitespace-nowrap">
         List of your matches
       </div>
@@ -150,14 +153,8 @@ function MatchSelectedPage() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center self-stretch px-16 pt-4 pb-7 mt-8 w-full bg-zinc-50 max-md:px-5 max-md:max-w-full">
-        <img
-          loading="lazy"
-          srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/3346252de73630fc891427e3ff30d4784786e1c7ac4fb5724ce1920ae280c14b?apiKey=319352577b174a1ea58e2124bae2c0e0&"
-          className="max-w-full aspect-[11.11] w-[311px]"
-        />
-      </div>
+      <Footer />
     </div>
     )
-}
+      }
 export default MatchSelectedPage;

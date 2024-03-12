@@ -1,70 +1,211 @@
 import React, { useState, useEffect } from 'react';
 import { useSharedVariables } from '../context/SharedVariableContextFile';
-import DogCard from '../components/DogCard'; // Assume DogCard is in the same directory
-import ProfileDogCard from '../components/ProfileDogCard';
+import DogCard from '../components/DogCard'; // Adjust the path as necessary
+import ProfileDogCard from '../components/ProfileDogCard'; // Adjust the path as necessary
+import Navbar from '../components/Navbar'; // Adjust the path as necessary
+import Footer from '../components/Footer'; // Adjust the path as necessary
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import '../App.css'; // Ensure this contains the required styles
+
+// Custom arrow components
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} custom-arrow next-arrow`}
+      style={{ ...style, display: "block" }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} custom-arrow prev-arrow`}
+      style={{ ...style, display: "block" }}
+      onClick={onClick}
+    />
+  );
+}
 
 const MatchDogsPage = () => {
   const { userCreatedProfiles, dogsData } = useSharedVariables();
   const userDogProfile = userCreatedProfiles[userCreatedProfiles.length - 1]; // Get the last created dog profile
 
+  const carouselSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    dotsClass: "slick-dots custom-dots", // Custom class for dots
+  };
+
+ 
+
   useEffect(() => {
     console.log('Current user created profiles:', userCreatedProfiles);
   }, [userCreatedProfiles]);
 
+  // Function that finds matches (already implemented by you)
   const findMatches = (userDogProfile, allDogs) => {
+    // Your matching logic...
     return allDogs.map(dog => {
-      let score = 0;
-      Object.keys(userDogProfile).forEach(key => {
-        if (['photo', 'name', 'image_link'].includes(key) || typeof userDogProfile[key] !== 'number') {
-          return; // Skip non-numeric and irrelevant properties
-        }
-        const value = userDogProfile[key];
-        const dogValue = dog[key];
-        // Increase tolerance or implement a scoring system
-        if (dogValue >= value - 1 && dogValue <= value + 1) {
-          score += 1; // Each match within tolerance adds 1 to the score
-        }
-      });
-      return { ...dog, score }; // Return the dog data with the computed score
-    })
-    .filter(dog => dog.score > 5) // Only include dogs with a score greater than 0
-    .sort((a, b) => b.score - a.score); // Sort by score in descending order
+              let score = 0;
+              Object.keys(userDogProfile).forEach(key => {
+                if (['photo', 'name', 'image_link'].includes(key) || typeof userDogProfile[key] !== 'number') {
+                  return; // Skip non-numeric and irrelevant properties
+                }
+                const value = userDogProfile[key];
+                const dogValue = dog[key];
+                // Increase tolerance or implement a scoring system
+                if (dogValue >= value - 1 && dogValue <= value + 1) {
+                  score += 1; // Each match within tolerance adds 1 to the score
+                }
+              });
+              return { ...dog, score }; // Return the dog data with the computed score
+            })
+            .filter(dog => dog.score > 5) // Only include dogs with a score greater than 0
+            .sort((a, b) => b.score - a.score); // Sort by score in descending order
   };
-  
-  
-  console.log(dogsData);
   const matchedDogs = findMatches(userDogProfile, dogsData);
-  console.log("This is the matchedDog length:",matchedDogs.length);
-
   return (
-    
-    <div className="matches-container">
-    <div className="my-dog-container">
-        <ProfileDogCard  key={userDogProfile.name} dog={userDogProfile}/>
-    </div>
-      {matchedDogs.map(dog => (
-        <DogCard key={dog.name} dog={dog} />
-      ))}
+    <div>
+      <Navbar />
+      <div className="matches-container py-20 flex">
+        <div className="profile-dog-card-container">
+          <ProfileDogCard key={userDogProfile.name} dog={userDogProfile} />
+        </div>
+        <div className="dog-cards-carousel-container ">
+          <Slider  {...carouselSettings}>
+            {matchedDogs.map((dog) => (
+              <DogCard key={dog.name} dog={dog} />
+            ))}
+          </Slider>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };
 
 export default MatchDogsPage;
 
-// const findMatches = (userDogProfile, allDogs) => {
-//     return allDogs.filter(dog => {
-//       return Object.keys(userDogProfile).every(key => {
-//         // Ignore non-numeric and photo properties
-//         if (key === 'photo' || key === 'name' || key === 'image_link' || typeof userDogProfile[key] !== 'number') {
-//             console.log("nothing happens")
-//             return true;
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useSharedVariables } from '../context/SharedVariableContextFile';
+// import DogCard from '../components/DogCard'; // Assume DogCard is in the same directory
+// import ProfileDogCard from '../components/ProfileDogCard';
+// import Navbar from '../components/Navbar';
+// import Footer from '../components/Footer';
+// import 
+// //Slider
+// import Slider from 'react-slick';
+// import "slick-carousel/slick/slick.css"; 
+// import "slick-carousel/slick/slick-theme.css";
+
+
+// const MatchDogsPage = () => {
+//   const { userCreatedProfiles, dogsData } = useSharedVariables();
+//   const userDogProfile = userCreatedProfiles[userCreatedProfiles.length - 1]; // Get the last created dog profile
+
+// // const [selectedMatches, setSelectedMatches] = useState([]);
+// // const [rejectedMatches, setRejectedMatches] = useState([]);
+
+//   useEffect(() => {
+//     console.log('Current user created profiles:', userCreatedProfiles);
+//   }, [userCreatedProfiles]);
+
+//   const findMatches = (userDogProfile, allDogs) => {
+//     return allDogs.map(dog => {
+//       let score = 0;
+//       Object.keys(userDogProfile).forEach(key => {
+//         if (['photo', 'name', 'image_link'].includes(key) || typeof userDogProfile[key] !== 'number') {
+//           return; // Skip non-numeric and irrelevant properties
 //         }
 //         const value = userDogProfile[key];
 //         const dogValue = dog[key];
-//         console.log(value)
-//         console.log(dogValue)
-//         // Check if the dog's attribute is within ±1 of the user's dog profile
-//         return dogValue >= value - 1 && dogValue <= value + 1;
+//         // Increase tolerance or implement a scoring system
+//         if (dogValue >= value - 1 && dogValue <= value + 1) {
+//           score += 1; // Each match within tolerance adds 1 to the score
+//         }
 //       });
-//     });
+//       return { ...dog, score }; // Return the dog data with the computed score
+//     })
+//     .filter(dog => dog.score > 5) // Only include dogs with a score greater than 0
+//     .sort((a, b) => b.score - a.score); // Sort by score in descending order
 //   };
+  
+// // const handleSelect = (dog) => {
+//   // setSelectedMatches ((prevSelectedMatches) => [...prevSelectedMatches, dog])
+//   // };
+// 
+// // const handleReject = (dog) => {
+  // // setRejectedMatches ((prevRejectedMatches) => [...prevRejectedMatches, dog])
+//   // };
+
+//   const carouselSettings = {
+//     dots: true, // Enable dot indicators for navigation
+//     infinite: true, // Enable infinite looping
+//     speed: 500, // Slide transition speed
+//     slidesToShow: 1, // Show only one slide at a time
+//     slidesToScroll: 1, // Scroll one slide at a time
+//     nextArrow: <SampleNextArrow />, // Custom next arrow component
+//     prevArrow: <SamplePrevArrow />, // Custom prev arrow component
+//     dotsClass: "slick-dots custom-dots", // Custom class for dots
+//     responsive: [
+//       {
+//         breakpoint: 1024,
+//         settings: {
+//           slidesToShow: 2,
+//           slidesToScroll: 2,
+//         },
+//       },
+//       {
+//         breakpoint: 600,
+//         settings: {
+//           slidesToShow: 1,
+//           slidesToScroll: 1,
+//         },
+//       },
+//     ],
+//   };
+//   console.log(dogsData);
+//   const matchedDogs = findMatches(userDogProfile, dogsData);
+//   console.log("This is the matchedDog length:",matchedDogs.length);
+
+// const matchedDogs = findMatches(userDogProfile, dogsData)
+
+//   return (
+//     <div>
+//       <Navbar />
+//       <div className="matches-container py-20 flex">
+//         <div className="profile-dog-card-container">
+//           <ProfileDogCard key={userDogProfile.name} dog={userDogProfile} />
+//         </div>
+//         <div className="dog-cards-carousel-container">
+//           <Slider {...carouselSettings}>
+//             {matchedDogs.map((dog) => (
+//               <DogCard key={dog.name} dog={dog} onSelect={() => handleSelect(dog)} onReject={() => handleReject(dog)}/>
+//             ))}
+//           </Slider>
+//         </div>
+//        <MatchSelectedPage selectedMatches={selectedMatches} rejectedMatches={rejectedMatches} />
+//       </div>
+//       {/* <Footer /> */}
+//     </div>
+//   );
+// };
+
+// export default MatchDogsPage;

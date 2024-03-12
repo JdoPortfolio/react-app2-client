@@ -1,9 +1,12 @@
 import { SharedVariablesProvider } from "../context/SharedVariableContextFile.jsx";
 import * as React from "react";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.jsx";
 
 function ProfileDashboard() {
   return (
     <div className="flex flex-col items-center">
+    <Navbar />
       <div className="self-stretch w-full bg-stone-50 min-h-[92px] max-md:max-w-full" />
       <div className="px-5 mt-24 w-full max-w-[1237px] max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -57,6 +60,7 @@ function ProfileDashboard() {
           className="max-w-full aspect-[11.11] w-[311px]"
         />
       </div>
+      <Footer />
     </div>
   );
 }
