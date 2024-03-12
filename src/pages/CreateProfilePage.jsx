@@ -1,7 +1,8 @@
 import { useSharedVariables } from '../context/SharedVariableContextFile'; // Adjust the path as necessary
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
+import DogCard from '../components/DogCard';
 
 // function CreateProfilePage() {
 //   const { addUserCreatedProfile } = useSharedVariables();
@@ -279,14 +280,14 @@ function CreateProfilePage() {
   const { addUserCreatedProfile } = useSharedVariables();
   const [dogProfile, setDogProfile] = useState({
     name: '',
-    goodWithChildren: 0,
+    good_with_Children: 0,
     playfulness: 0,
-    goodWithOtherDogs: 0,
+    good_with_other_dogs: 0,
     barkingLevel: 0,
-    goodWithStrangers: 0,
+    good_with_strangers: 0,
     protectiveness: 0,
     trainability: 0,
-    energyLevel: 0,
+    energy: 0,
     photo: null,
   });
 
@@ -319,17 +320,18 @@ function CreateProfilePage() {
       // Reset the form by setting the state back to the initial state
   setDogProfile({
     name: '',
-    goodWithChildren: 0,
+    good_with_children: 0,
     playfulness: 0,
-    goodWithOtherDogs: 0,
-    barkingLevel: 0,
-    goodWithStrangers: 0,
+    good_with_other_dogs: 0,
+    barking: 0,
+    good_with_strangers: 0,
     protectiveness: 0,
     trainability: 0,
-    energyLevel: 0,
+    energy: 0,
     photo: null,
+
   });
-  navigate('/about');
+  navigate('/matches');
   };
 
   const { userCreatedProfiles } = useSharedVariables();
@@ -353,7 +355,7 @@ function CreateProfilePage() {
     <form onSubmit={handleSubmit}>
       <div>
         <label>Good with children:</label>
-        <RatingSelector category="goodWithChildren" currentValue={dogProfile.goodWithChildren} />
+        <RatingSelector category="good_with_children" currentValue={dogProfile.good_with_children} />
       </div>
       <div>
         <label>Playfulness:</label>
@@ -361,15 +363,15 @@ function CreateProfilePage() {
       </div>
       <div>
         <label>Good with other dogs:</label>
-        <RatingSelector category="goodWithOtherDogs" currentValue={dogProfile.goodWithOtherDogs} />
+        <RatingSelector category="good_with_other_dogs" currentValue={dogProfile.good_with_other_dogs} />
       </div>
       <div>
         <label>Barking level:</label>
-        <RatingSelector category="barkingLevel" currentValue={dogProfile.barkingLevel} />
+        <RatingSelector category="barking" currentValue={dogProfile.barking} />
       </div>
       <div>
         <label>Good with strangers:</label>
-        <RatingSelector category="goodWithStrangers" currentValue={dogProfile.goodWithStrangers} />
+        <RatingSelector category="good_with_strangers" currentValue={dogProfile.good_with_strangers} />
       </div>
       <div>
         <label>Protectiveness:</label>
@@ -381,7 +383,7 @@ function CreateProfilePage() {
       </div>
       <div>
         <label>Energy level:</label>
-        <RatingSelector category="energyLevel" currentValue={dogProfile.energyLevel} />
+        <RatingSelector category="energy_level" currentValue={dogProfile.energy_level} />
       </div>
       <div>
         <label>Enter your dog’s name:</label>

@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 
 function AboutPage () {
   const { userCreatedProfiles } = useSharedVariables();
-  useEffect(() => {
-    console.log('Current user created profiles:', userCreatedProfiles);
-  }, [userCreatedProfiles]); // This effect will run every time userCreatedProfiles changes.
+  // useEffect(() => {
+  //   console.log('Current user created profiles:', userCreatedProfiles);
+  // }, [userCreatedProfiles]); // This effect will run every time userCreatedProfiles changes.
     return (
       
         <div className="flex flex-col">

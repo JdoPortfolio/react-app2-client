@@ -10,6 +10,7 @@ import 'flowbite'; // Assuming this is a CSS or UI library import
 
 // Styling:
 import './App.css';
+import MatchDogsPage from './pages/MatchDogsPage.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/profile" element={<ProfileDashboard />} />
           <Route path="/createprofile" element={<CreateProfilePage />} />
+          <Route path="/matches" element={<MatchDogsPage />} />
           {/* Uncomment and use additional routes as needed */}
         </Routes>
       </div>
