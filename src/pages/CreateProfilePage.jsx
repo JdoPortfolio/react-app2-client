@@ -1,14 +1,13 @@
 import { useSharedVariables } from '../context/SharedVariableContextFile'; // Adjust the path as necessary
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import DogCard from '../components/DogCard';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer';
 import '../App.css'
 
 
 function CreateProfilePage() {
+  const navigate = useNavigate();
   const { addUserCreatedProfile } = useSharedVariables();
   const [dogProfile, setDogProfile] = useState({
     name: '',
@@ -30,47 +29,61 @@ function CreateProfilePage() {
   const handleNameChange = (e) => {
     setDogProfile((prevProfile) => ({ ...prevProfile, name: e.target.value }));
   };
-
   const handlePhotoChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
-      
+  
       reader.onload = (event) => {
-        setDogProfile((prevProfile) => ({
+        // Here, event.target.result contains the Base64 encoded string of the image
+        setDogProfile(prevProfile => ({
           ...prevProfile,
-          photo: event.target.result, // This will be the data URL of the loaded image
+          photo: event.target.result // The Base64 string
         }));
       };
-      
+  
       reader.readAsDataURL(e.target.files[0]);
     }
   };
+  // const handlePhotoChange = (e) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     const reader = new FileReader();
+      
+  //     reader.onload = (event) => {
+  //       setDogProfile((prevProfile) => ({
+  //         ...prevProfile,
+  //         photo: event.target.result, // This will be the data URL of the loaded image
+  //       }));
+  //     };
+      
+  //     reader.readAsDataURL(e.target.files[0]);
+  //   }
+  // };
 
 
-  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addUserCreatedProfile(dogProfile);
-    // Optionally reset the form or navigate away
-    console.log("submitted", dogProfile,)
-
-
-
-  setDogProfile({
-    name: '',
-    good_with_children: 0,
-    playfulness: 0,
-    good_with_other_dogs: 0,
-    barking: 0,
-    good_with_strangers: 0,
-    protectiveness: 0,
-    trainability: 0,
-    energy: 0,
-    photo: null,
-
-  });
-  navigate('/matches');
+    console.log("submitted", dogProfile);
+  
+    // Since addUserCreatedProfile is async, we await its completion before resetting the form and navigating
+    await addUserCreatedProfile(dogProfile);
+  
+    // Reset the form by setting the state back to the initial state
+    setDogProfile({
+      name: '',
+      good_with_children: 0,
+      playfulness: 0,
+      good_with_other_dogs: 0,
+      barking: 0,
+      good_with_strangers: 0,
+      protectiveness: 0,
+      trainability: 0,
+      energy: 0,
+      photo: null,
+    });
+  
+    // Navigate away after successfully adding the profile and resetting the form
+    navigate('/matches');
   };
 
   const { userCreatedProfiles } = useSharedVariables();
