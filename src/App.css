@@ -53,7 +53,7 @@
 /* Adjustments for the carousel container */
 .dog-cards-carousel-container {
   max-width: 350px; /* Set the maximum width to contain the dog card plus padding */
-  margin-left: 20px;
+  /* margin-left: 20px; */
   border: 5px solid #E5224C;
   border-radius: 15px;
   overflow: hidden;
