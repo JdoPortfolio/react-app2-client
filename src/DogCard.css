@@ -49,7 +49,7 @@
   opacity: 0.9;
 }
 
-/* Separate styles for each button to differentiate them */
+
 .dog-card button:first-of-type {
   background-color: #3498db;
   
@@ -57,4 +57,7 @@
 
 .dog-card button:last-of-type {
   background-color: #e74c3c;
+}
+.matches-button {
+  background-color: green !important;
 }

@@ -1,40 +1,29 @@
-//Luis Code:
-import React, { useEffect, useState } from 'react';
-import { useSharedVariables } from '../context/SharedVariableContextFile';
-import DogCard from '../components/DogCard';
-import ProfileDogCard from '../components/ProfileDogCard';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
+import React, { useEffect, useState } from "react";
+import { useSharedVariables } from "../context/SharedVariableContextFile";
+import DogCard from "../components/DogCard";
+import ProfileDogCard from "../components/ProfileDogCard";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import '../App.css';
-import { useNavigate } from 'react-router-dom';
-import Favorite from "../assets/favorite.png";
-import Dislike from "../assets/dislike.png";
-import Match from "../assets/match-button.png";
+import { useNavigate } from "react-router-dom";
 import BoneIcon from "../assets/boneicon.png";
-
 const MatchDogsPage = () => {
   const { userCreatedProfiles, dogsData } = useSharedVariables();
   const [selectedDogs, setSelectedDogs] = useState([]);
   const navigate = useNavigate();
-  
   const lastProfile = userCreatedProfiles[userCreatedProfiles.length - 1];
-
   useEffect(() => {
     if (lastProfile) {
       const initialMatches = findMatches(lastProfile, dogsData);
-      setSelectedDogs(initialMatches); // Assuming you want to initially select all matches (or adjust as needed)
+      setSelectedDogs(initialMatches);
     }
   }, [lastProfile, dogsData]);
-
   const handleDogSelect = (selectedDog) => {
-    // Navigate with only the selected dog
     const matchedPaws = encodeURIComponent(JSON.stringify([selectedDog]));
     navigate(`/profile?matchedPaws=${matchedPaws}`);
   };
-
   const carouselSettings = {
     dots: false,
     infinite: false,
@@ -44,84 +33,102 @@ const MatchDogsPage = () => {
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
-  // Custom next arrow for the slider
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={`${className} custom-arrow next-arrow`}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    />
-  );
-}
+  const findMatches = (profile, allDogs) => {
+    
+    return allDogs.filter((dog) => {
+      return (
+        Math.abs(dog.good_with_children - profile.good_with_children) <= 1 &&
+        Math.abs(dog.good_with_other_dogs - profile.good_with_other_dogs) <= 1
+      );
+    });
+  };
 
-// Custom previous arrow for the slider
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={`${className} custom-arrow next-arrow`}
+        style={{ ...style, display: "block" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={`${className} custom-arrow prev-arrow`}
+        style={{ ...style, display: "block" }}
+        onClick={onClick}
+      />
+    );
+  }
+
   return (
-    <div
-      className={`${className} custom-arrow prev-arrow`}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    />
-  );
-}
-const findMatches = (profile, allDogs) => {
-  // Define your matching logic here
-  // This is a placeholder logic; adjust it according to your actual matching criteria
-  return allDogs.filter(dog => {
-    return Math.abs(dog.good_with_children - profile.good_with_children) <= 1
-    && Math.abs(dog.good_with_other_dogs - profile.good_with_other_dogs) <= 1;
-    // Add more conditions as necessary
-  });
-};
-  return (
-    <div >
+    <div>
       <Navbar />
       <div className="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100 h-screen w-screen">
-      <div>
-      <div className="grid grid-cols-3 gap-2 pt-20">
-
-        <div className="dog-card">
-          <ProfileDogCard dog={lastProfile} />
-        </div>
-
-
-        
-        <div> 
-        <div class='rounded-3x1 pt-28'>
-        <div className="flex flex-col flex-1">
-                    <img
-                    src={BoneIcon}
-                      className="self-center border-2 border-rose-500 border-solid shadow-sm aspect-[1.22] w-[100px]"
-                    />
+        <div className="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100">
+          <section
+            class="h-[640px] bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100 tails-selected-element"
+            contenteditable="true"
+          >
+            <div class="max-w-7xl px-5 py-20 flex space-x-5 w-full h-full items-center justify-center mx-auto">
+              <div class="flex h-full w-full bg-pink-100 rounded-2xl xl:p-12 ">
+                <div class="flex h-full w-full bg-pink-1oo rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full">
+                  <ProfileDogCard dog={lastProfile} />
+                </div>
+              </div>
+              <div class="flex h-full w-full bg-pink-200 rounded-md xl:w-60">
+                <span class="w-full text-transparent bg-clip-text  xl:h-24 xl:mt-44 xl:text-center xl:align-middle">
+               <img src={BoneIcon} alt="Throw Bone" onClick={() => selectedDogs.length && handleDogSelect(selectedDogs[0])} style={{ cursor: 'pointer' }} />
+               </span>
             </div>
+            <div class="flex h-full w-full bg-pink-100 rounded-2xl xl:p-12">
+            <div class="flex h-full w-full bg-pink-200 rounded-2xl border-2 border-rose-400xl:text-center xl:text-sm xl:flex-col xl:w-full">
+            <div className="dog-cards-carousel-container">
+                <Slider {...carouselSettings}>
+                {selectedDogs.map((dog) => (
+                  <DogCard
+                key={dog.name}
+                dog={dog}
+                  onSelect={handleDogSelect}
+                  />
+                  ))}
+             </Slider>
+                 </div>
+               </div>             
+                </div>
+            </div>
+           </section>
         </div>
-        </div>
-
-        <div className="dog-cards-carousel-container">
-          <Slider {...carouselSettings}>
-            {selectedDogs.map((dog) => (
-              <DogCard key={dog.name} dog={dog} onSelect={handleDogSelect} />
-            ))}
-          </Slider>
-          <div className="flex justify-center pt-6">
-              <img onClick={() => onDelete(dog.id)} src={Dislike} class="w-20 h-20 rounded-full"></img>
-              <img onClick={() => onDelete(dog.id)} src={Match} class="w-20 h-20 rounded-full"></img>
-              <img onClick={() => onDelete(dog.id)} src={Favorite} class="w-20 h-20rounded-full"></img>
-          </div>
-        </div>
-
-      </div>
-      </div>
       </div>
       <Footer />
     </div>
   );
 };
-
 export default MatchDogsPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // import React, { useEffect, useState } from 'react';
 // import { useSharedVariables } from '../context/SharedVariableContextFile';

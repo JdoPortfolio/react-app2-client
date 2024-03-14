@@ -1,7 +1,7 @@
 import "../App.css";
 import { Link } from 'react-router-dom';
 import {useState} from 'react';
-import { SharedVariablesProvider } from "../context/SharedVariableContextFile.jsx";// Ensure this path is correct
+import { SharedVariablesProvider } from "../context/SharedVariableContextFile.jsx";
 import Logo from '../assets/logoipsum.svg';
 import iconText from "../assets/icon-text.png";
 import iconLove from "../assets/icon-love.png";

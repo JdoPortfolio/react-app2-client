@@ -1,7 +1,7 @@
 
 // src/context/SharedVariablesContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios'; // Ensure axios is installed and imported
+import axios from 'axios';
 
 const SharedVariablesContext = createContext();
 
@@ -11,48 +11,194 @@ export const SharedVariablesProvider = ({ children }) => {
   const [dogsData, setDogsData] = useState([]);
   const [userCreatedProfiles, setUserCreatedProfiles] = useState([]);
 
-  // Function to fetch existing dogs data
+
+
   const fetchDogData = async () => {
     try {
       const response = await axios.get('http://localhost:4000/dogs');
-      setDogsData(response.data); // Assuming the response.data directly contains the array of dogs
+      setDogsData(response.data); 
     } catch (error) {
       console.error("Failed to fetch dog data:", error);
     }
   };
 
-  // Function to fetch user-created profiles
+
   const fetchUserCreatedProfiles = async () => {
     try {
       const response = await axios.get('http://localhost:4000/mydogs');
-      setUserCreatedProfiles(response.data); // Assuming the response.data directly contains the array of user-created profiles
+      setUserCreatedProfiles(response.data); 
     } catch (error) {
       console.error("Failed to fetch user-created profiles:", error);
     }
   };
 
-  // useEffect hook to fetch data on component mount
   useEffect(() => {
     fetchDogData();
     fetchUserCreatedProfiles();
   }, []);
 
-  // Function to add a new user-created profile
+
+  // const addUserCreatedProfile = async (profile) => {
+  //   try {
+  //     await axios.post('http://localhost:4000/mydogs', profile);
+  //     fetchUserCreatedProfiles(); 
+  //   } catch (error) {
+  //     console.error("Failed to add user-created profile:", error);
+  //   }
+  // };
+
   const addUserCreatedProfile = async (profile) => {
     try {
-      await axios.post('http://localhost:4000/mydogs', profile);
-      fetchUserCreatedProfiles(); // Re-fetch user-created profiles to update the local state after adding a new profile
+      const response = await axios.post('http://localhost:4000/mydogs', profile);
+      setUserCreatedProfiles(prevProfiles => [...prevProfiles, response.data]);
+      return response
     } catch (error) {
       console.error("Failed to add user-created profile:", error);
     }
   };
 
   return (
-    <SharedVariablesContext.Provider value={{ dogsData, userCreatedProfiles, addUserCreatedProfile }}>
+    <SharedVariablesContext.Provider value={{ dogsData, userCreatedProfiles, addUserCreatedProfile, fetchUserCreatedProfiles }}>
       {children}
     </SharedVariablesContext.Provider>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// src/context/SharedVariablesContext.js
+// import React, { createContext, useContext, useState, useEffect } from 'react';
+// import axios from 'axios';
+
+// const SharedVariablesContext = createContext();
+
+
+// export const useSharedVariables = () => useContext(SharedVariablesContext);
+
+// export const SharedVariablesProvider = ({ children }) => {
+//   const [dogsData, setDogsData] = useState([]);
+//   const [userCreatedProfiles, setUserCreatedProfiles] = useState([]);
+
+//   // Removed userUpdatedProfiles as it seems redundant with the current implementation.
+//   // If userUpdatedProfiles serve a different purpose, consider adding it back with clear distinction.
+
+//   const fetchDogData = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:4000/dogs');
+//       setDogsData(response.data);
+//     } catch (error) {
+//       console.error("Failed to fetch dog data:", error);
+//     }
+//   };
+
+//   const fetchUserCreatedProfiles = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:4000/mydogs');
+//       setUserCreatedProfiles(response.data);
+//     } catch (error) {
+//       console.error("Failed to fetch user-created profiles:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchDogData();
+//     fetchUserCreatedProfiles();
+//     // Removed fetchUserUpdatedProfiles due to the missing dogId parameter.
+//   }, []);
+
+//   const addUserCreatedProfile = async (profile) => {
+//     try {
+//       const response = await axios.post('http://localhost:4000/mydogs', profile);
+//       // Optimistically update the local state without refetching all profiles
+//       setUserCreatedProfiles(prevProfiles => [...prevProfiles, response.data]);
+//     } catch (error) {
+//       console.error("Failed to add user-created profile:", error);
+//     }
+//   };
+
+//   // If addUserUpdatedProfile is meant for updates, use axios.put/patch and optimistically update the state
+//   // This is an example assuming addUserUpdatedProfile is meant for updating existing profiles.
+//   const updateUserProfile = async (profileId, updatedProfile) => {
+//     try {
+//       await axios.put(`http://localhost:4000/mydogs/${profileId}`, updatedProfile);
+//       // Optimistically update the profile in the state
+//       setUserCreatedProfiles(prevProfiles =>
+//         prevProfiles.map(profile => profile.id === profileId ? { ...profile, ...updatedProfile } : profile)
+//       );
+//     } catch (error) {
+//       console.error("Failed to update profile:", error);
+//     }
+//   };
+
+//   return (
+//     <SharedVariablesContext.Provider value={{ dogsData, userCreatedProfiles, addUserCreatedProfile, updateUserProfile }}>
+//       {children}
+//     </SharedVariablesContext.Provider>
+//   );
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // // src/context/SharedVariablesContext.js
