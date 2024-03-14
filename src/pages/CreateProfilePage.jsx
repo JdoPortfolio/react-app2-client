@@ -14,7 +14,7 @@ function CreateProfilePage() {
     good_with_Children: 0,
     playfulness: 0,
     good_with_other_dogs: 0,
-    barkingLevel: 0,
+    barking: 0,
     good_with_strangers: 0,
     protectiveness: 0,
     trainability: 0,
@@ -44,28 +44,12 @@ function CreateProfilePage() {
       reader.readAsDataURL(e.target.files[0]);
     }
   };
-  // const handlePhotoChange = (e) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     const reader = new FileReader();
-      
-  //     reader.onload = (event) => {
-  //       setDogProfile((prevProfile) => ({
-  //         ...prevProfile,
-  //         photo: event.target.result, // This will be the data URL of the loaded image
-  //       }));
-  //     };
-      
-  //     reader.readAsDataURL(e.target.files[0]);
-  //   }
-  // };
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("submitted", dogProfile);
   
-    // Since addUserCreatedProfile is async, we await its completion before resetting the form and navigating
+
     await addUserCreatedProfile(dogProfile);
   
     // Reset the form by setting the state back to the initial state
@@ -119,7 +103,7 @@ return (
       {/* ...other parts of your form... */}
       <div className="flex flex-col items-center mt-10 w-full">
         {/* Iterate over each category to create a row */}
-        {['Good with Children', 'Playfulness', 'Good with other Dogs', 'Barking Level', 'Protectiveness', 'Good with Strangers', 'Trainability', 'Energy Level'].map((category) => (
+        {['Good with Children', 'Playfulness', 'Good with other Dogs', 'Barking', 'Protectiveness', 'Good with Strangers', 'Trainability', 'Energy'].map((category) => (
           <div key={category} className="flex items-center justify-between px-5 py-4 w-full bg-white border-rose-500 border-solid shadow-sm border-[3px] rounded-[100px] mb-3">
             <label className="text-lg font-semibold">{category}:</label>
             <RatingSelector category={category.toLowerCase().replace(/\s+/g, '_')} currentValue={dogProfile[category.toLowerCase().replace(/\s+/g, '_')]} onChange={handleRatingChange} />

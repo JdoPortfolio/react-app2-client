@@ -29,14 +29,34 @@ const MyDogsPage = () => {
     }
   };
 
-  // Placeholder for update functionality - adjust as necessary
-  const handleUpdate = (dog) => {
-    console.log("Update functionality not implemented yet", dog);
+  const handleUpdate = async (dogId, newName) => {
+    try {
+      console.log(typeof newName); // Check the type of newName
+      if (typeof newName === 'string' && newName.trim() === "") {
+        console.error("New name is empty");
+        return;
+      }
+
+      const trimmedName = typeof newName === 'string' ? newName.trim() : '';
+      const response = await axios.patch(`http://localhost:4000/mydogs/${dogId}`, { name: trimmedName });
+      setMyDogs(currentDogs =>
+        currentDogs.map(dog => {
+          if (dog.id === dogId) {
+            return { ...dog, ...response.data };
+          }
+          return dog;
+        })
+      );
+    } catch (error) {
+      console.error("Failed to update dog name:", error);
+    }
   };
+
+  
 
   const carouselSettings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -49,14 +69,21 @@ const MyDogsPage = () => {
     <div>
       <Navbar/>
       <div className="dog-cards-carousel-container my-60">
+ 
         <Slider {...carouselSettings}>
-          {myDogs.length > 0 ? (
+            {myDogs.length > 0 ? (
             myDogs.map((dog) => (
-              <ProfileDogCard key={dog.id} dog={dog} onDelete={() => handleDelete(dog.id)} onUpdate={() => handleUpdate(dog)} />
-            ))
-          ) : (
-            <p>No dogs found</p>
-          )}
+            <ProfileDogCard 
+                key={dog.id} 
+                dog={dog} 
+                onDelete={() => handleDelete(dog.id)} 
+                onUpdate={handleUpdate} 
+                 showButton={true} // Ensure buttons are visible
+            />
+         ))
+            ) : (
+        <p>No dogs found</p>
+             )}
         </Slider>
       </div>
       <Footer/>

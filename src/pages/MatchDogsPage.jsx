@@ -1,4 +1,5 @@
-import React from 'react';
+//Luis Code:
+import React, { useEffect, useState } from 'react';
 import { useSharedVariables } from '../context/SharedVariableContextFile';
 import DogCard from '../components/DogCard';
 import ProfileDogCard from '../components/ProfileDogCard';
@@ -7,9 +8,43 @@ import Footer from '../components/Footer';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import '../App.css';
+// import '../App.css';
+import { useNavigate } from 'react-router-dom';
+import Favorite from "../assets/favorite.png";
+import Dislike from "../assets/dislike.png";
+import Match from "../assets/match-button.png";
+import BoneIcon from "../assets/boneicon.png";
 
-// Custom arrow components
+const MatchDogsPage = () => {
+  const { userCreatedProfiles, dogsData } = useSharedVariables();
+  const [selectedDogs, setSelectedDogs] = useState([]);
+  const navigate = useNavigate();
+  
+  const lastProfile = userCreatedProfiles[userCreatedProfiles.length - 1];
+
+  useEffect(() => {
+    if (lastProfile) {
+      const initialMatches = findMatches(lastProfile, dogsData);
+      setSelectedDogs(initialMatches); // Assuming you want to initially select all matches (or adjust as needed)
+    }
+  }, [lastProfile, dogsData]);
+
+  const handleDogSelect = (selectedDog) => {
+    // Navigate with only the selected dog
+    const matchedPaws = encodeURIComponent(JSON.stringify([selectedDog]));
+    navigate(`/profile?matchedPaws=${matchedPaws}`);
+  };
+
+  const carouselSettings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+  // Custom next arrow for the slider
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
@@ -21,6 +56,7 @@ function SampleNextArrow(props) {
   );
 }
 
+// Custom previous arrow for the slider
 function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
   return (
@@ -31,48 +67,54 @@ function SamplePrevArrow(props) {
     />
   );
 }
-
-const MatchDogsPage = () => {
-  const { userCreatedProfiles, dogsData } = useSharedVariables();
-
-  const findMatches = (profile, allDogs) => {
-    // Your matching logic here
-    return allDogs.filter(dog => {
-      return Math.abs(dog.good_with_children - profile.good_with_children) <= 1
-             && Math.abs(dog.good_with_other_dogs - profile.good_with_other_dogs) <= 1;
-      // Add more conditions as necessary
-    });
-  };
-
-  const lastProfile = userCreatedProfiles[userCreatedProfiles.length - 1];
-  const matchedDogs = lastProfile ? findMatches(lastProfile, dogsData) : [];
-  console.log(matchedDogs);
-  
-  const carouselSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
-
+const findMatches = (profile, allDogs) => {
+  // Define your matching logic here
+  // This is a placeholder logic; adjust it according to your actual matching criteria
+  return allDogs.filter(dog => {
+    return Math.abs(dog.good_with_children - profile.good_with_children) <= 1
+    && Math.abs(dog.good_with_other_dogs - profile.good_with_other_dogs) <= 1;
+    // Add more conditions as necessary
+  });
+};
   return (
-    <div>
+    <div >
       <Navbar />
-      <div className="matches-container py-20">
-        {/* Directly display the last ProfileDogCard without a slider */}
-        {lastProfile && <ProfileDogCard dog={lastProfile} />}
+      <div className="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100 h-screen w-screen">
+      <div>
+      <div className="grid grid-cols-3 gap-2 pt-20">
+
+        <div className="dog-card">
+          <ProfileDogCard dog={lastProfile} />
+        </div>
+
+
         
-        {/* Slider for matched DogCards */}
-        <div className="dog-cards-carousel-container my-10">
+        <div> 
+        <div class='rounded-3x1 pt-28'>
+        <div className="flex flex-col flex-1">
+                    <img
+                    src={BoneIcon}
+                      className="self-center border-2 border-rose-500 border-solid shadow-sm aspect-[1.22] w-[100px]"
+                    />
+            </div>
+        </div>
+        </div>
+
+        <div className="dog-cards-carousel-container">
           <Slider {...carouselSettings}>
-            {matchedDogs.map((dog) => (
-              <DogCard key={dog.name} dog={dog} />
+            {selectedDogs.map((dog) => (
+              <DogCard key={dog.name} dog={dog} onSelect={handleDogSelect} />
             ))}
           </Slider>
+          <div className="flex justify-center pt-6">
+              <img onClick={() => onDelete(dog.id)} src={Dislike} class="w-20 h-20 rounded-full"></img>
+              <img onClick={() => onDelete(dog.id)} src={Match} class="w-20 h-20 rounded-full"></img>
+              <img onClick={() => onDelete(dog.id)} src={Favorite} class="w-20 h-20rounded-full"></img>
+          </div>
         </div>
+
+      </div>
+      </div>
       </div>
       <Footer />
     </div>
@@ -80,6 +122,265 @@ const MatchDogsPage = () => {
 };
 
 export default MatchDogsPage;
+
+// import React, { useEffect, useState } from 'react';
+// import { useSharedVariables } from '../context/SharedVariableContextFile';
+// import DogCard from '../components/DogCard';
+// import ProfileDogCard from '../components/ProfileDogCard';
+// import Navbar from '../components/Navbar';
+// import Footer from '../components/Footer';
+// import Slider from 'react-slick';
+// import "slick-carousel/slick/slick.css"; 
+// import "slick-carousel/slick/slick-theme.css";
+// import '../App.css';
+// import { useNavigate } from 'react-router-dom'
+
+
+// // Custom arrow components
+// function SampleNextArrow(props) {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={`${className} custom-arrow next-arrow`}
+//       style={{ ...style, display: "block" }}
+//       onClick={onClick}
+//     />
+//   );
+// }
+
+// function SamplePrevArrow(props) {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={`${className} custom-arrow prev-arrow`}
+//       style={{ ...style, display: "block" }}
+//       onClick={onClick}
+//     />
+//   );
+// }
+
+// const findMatches = (profile, allDogs) => {
+//   // Define your matching logic here
+//   // This is a placeholder logic; adjust it according to your actual matching criteria
+//   return allDogs.filter(dog => {
+//     return Math.abs(dog.good_with_children - profile.good_with_children) <= 1
+//     && Math.abs(dog.good_with_other_dogs - profile.good_with_other_dogs) <= 1;
+//     // Add more conditions as necessary
+//   });
+// };
+
+// const MatchDogsPage = () => {
+//   const { userCreatedProfiles, dogsData } = useSharedVariables();
+//   const [selectedDogs, setSelectedDogs] = useState([]);
+//   const [matchedDogs, setMatchedDogs] = useState([]);
+  
+//   const navigate = useNavigate();
+
+//   // Use the last userCreatedProfile for matching if available
+//   const lastProfile = userCreatedProfiles[userCreatedProfiles.length - 1];
+
+//   useEffect(() => {
+//     if (lastProfile) {
+//       setMatchedDogs(findMatches(lastProfile, dogsData));
+//     }
+//   }, [lastProfile, dogsData]); // Only re-run the effect if lastProfile or dogsData changes
+
+
+//   const handleDogSelect = (selectedDog) => {
+//     setSelectedDogs((prevSelectedDogs) => [...prevSelectedDogs, selectedDog])
+
+//     setMatchedDogs((prevMatchedDogs) => 
+//     prevMatchedDogs.filter((dog) => dog.name !== selectedDog.name)
+//     )
+//   };
+
+  
+//   const handleViewMatches = () => {
+//     const matchedPaws = encodeURIComponent(JSON.stringify(selectedDogs));
+//     navigate(`/profile?matchedPaws=${matchedPaws}`);
+//   };
+//   // const matchedDogs = lastProfile ? findMatches(lastProfile, dogsData) : [];
+//   // console.log(matchedDogs);
+//   const carouselSettings = {
+//     dots: false,
+//     infinite: false,
+//     speed: 500,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     nextArrow: <SampleNextArrow />,
+//     prevArrow: <SamplePrevArrow />,
+//   };
+
+
+//   return (
+//     <div>
+//       <Navbar />
+//       <div className="matches-container py-20 flex justify-between">
+//         <div className="profile-dog-card-container">
+//           <ProfileDogCard /*key={lastProfile.id}*/ dog={lastProfile} />
+//         </div>
+        
+//         {/* Slider for matched DogCards */}
+//         <div className="dog-cards-carousel-container" >
+//           <Slider {...carouselSettings}>
+//             {matchedDogs.map((dog) => (
+//               <DogCard key={dog.name} dog={dog} onSelect={handleDogSelect} />
+//             ))}
+//           </Slider>
+//         </div>
+//         <div>
+//           <button onClick={handleViewMatches}> View Matches </button>
+//         </div>
+//         </div>
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default MatchDogsPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Jonathan Diaz Code
+
+// import React from 'react';
+// import { useSharedVariables } from '../context/SharedVariableContextFile';
+// import DogCard from '../components/DogCard';
+// import ProfileDogCard from '../components/ProfileDogCard';
+// import Navbar from '../components/Navbar';
+// import Footer from '../components/Footer';
+// import Slider from 'react-slick';
+// import "slick-carousel/slick/slick.css"; 
+// import "slick-carousel/slick/slick-theme.css";
+// import '../App.css';
+
+// // Custom arrow components
+// function SampleNextArrow(props) {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={`${className} custom-arrow next-arrow`}
+//       style={{ ...style, display: "block" }}
+//       onClick={onClick}
+//     />
+//   );
+// }
+
+// function SamplePrevArrow(props) {
+//   const { className, style, onClick } = props;
+//   return (
+//     <div
+//       className={`${className} custom-arrow prev-arrow`}
+//       style={{ ...style, display: "block" }}
+//       onClick={onClick}
+//     />
+//   );
+// }
+
+// const MatchDogsPage = () => {
+//   const { userCreatedProfiles, dogsData } = useSharedVariables();
+
+ 
+//  const findMatches = (profile, allDogs) => {
+ 
+//       return allDogs.filter(dog => {
+//         return Math.abs(dog.good_with_children - profile.good_with_children) <= 1 &&
+//                Math.abs(dog.playfulness - profile.playfulness) <= 1 &&
+//                Math.abs(dog.good_with_other_dogs - profile.good_with_other_dogs) <= 1 &&
+//                Math.abs(dog.barking - profile.barking) <= 1 &&
+//                Math.abs(dog.protectiveness - profile.protectiveness) <= 1 &&
+//                Math.abs(dog.good_with_strangers - profile.good_with_strangers) <= 1 &&
+//                Math.abs(dog.trainability - profile.trainability) <= 1 &&
+//                Math.abs(dog.energy - profile.energy) <= 1;
+   
+//       });
+//   };
+
+  
+
+//   const lastProfile = userCreatedProfiles[userCreatedProfiles.length - 1];
+//   const matchedDogs = lastProfile ? findMatches(lastProfile, dogsData) : [];
+//   console.log(matchedDogs);
+  
+//   const carouselSettings = {
+//     dots: false,
+//     infinite: false,
+//     speed: 500,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     nextArrow: <SampleNextArrow />,
+//     prevArrow: <SamplePrevArrow />,
+//   };
+
+//   return (
+//     <div>
+//       <Navbar />
+//       <div className="matches-container py-20">
+//         {/* Pass false to showButtons to hide the buttons */}
+//         {lastProfile && <ProfileDogCard dog={lastProfile} showButtons={false} />}
+        
+//         {/* Slider for matched DogCards */}
+//         <div className="dog-cards-carousel-container my-10">
+//           <Slider {...carouselSettings}>
+//             {matchedDogs.map((dog) => (
+//               <DogCard key={dog.name} dog={dog} />
+//             ))}
+//           </Slider>
+//         </div>
+//       </div>
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default MatchDogsPage;
 
 // import React from 'react';
 // import { useSharedVariables } from '../context/SharedVariableContextFile';
