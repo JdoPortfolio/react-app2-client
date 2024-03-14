@@ -2,6 +2,7 @@
 // src/context/SharedVariablesContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { JSON_SERVER } from '../services/JSON_SERVER';
 
 const SharedVariablesContext = createContext();
 
@@ -15,7 +16,7 @@ export const SharedVariablesProvider = ({ children }) => {
 
   const fetchDogData = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/dogs');
+      const response = await axios.get(JSON_SERVER + '/dogs');
       setDogsData(response.data); 
     } catch (error) {
       console.error("Failed to fetch dog data:", error);
@@ -25,7 +26,7 @@ export const SharedVariablesProvider = ({ children }) => {
 
   const fetchUserCreatedProfiles = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/mydogs');
+      const response = await axios.get(JSON_SERVER + '/mydogs');
       setUserCreatedProfiles(response.data); 
     } catch (error) {
       console.error("Failed to fetch user-created profiles:", error);
@@ -38,18 +39,11 @@ export const SharedVariablesProvider = ({ children }) => {
   }, []);
 
 
-  // const addUserCreatedProfile = async (profile) => {
-  //   try {
-  //     await axios.post('http://localhost:4000/mydogs', profile);
-  //     fetchUserCreatedProfiles(); 
-  //   } catch (error) {
-  //     console.error("Failed to add user-created profile:", error);
-  //   }
-  // };
+
 
   const addUserCreatedProfile = async (profile) => {
     try {
-      const response = await axios.post('http://localhost:4000/mydogs', profile);
+      const response = await axios.post(JSON_SERVER + '/mydogs', profile);
       setUserCreatedProfiles(prevProfiles => [...prevProfiles, response.data]);
       return response
     } catch (error) {

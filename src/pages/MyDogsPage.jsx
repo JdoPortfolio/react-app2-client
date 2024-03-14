@@ -7,6 +7,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import '../App.css';
+import { JSON_SERVER } from '../services/JSON_SERVER';
 
 const MyDogsPage = () => {
   const [myDogs, setMyDogs] = useState([]);
@@ -16,13 +17,13 @@ const MyDogsPage = () => {
   }, []);
 
   const fetchMyDogs = async () => {
-    const response = await axios.get('http://localhost:4000/mydogs');
+    const response = await axios.get(JSON_SERVER + '/mydogs');
     setMyDogs(response.data);
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/mydogs/${id}`);
+      await axios.delete( JSON_SERVER + `/mydogs/${id}`);
       fetchMyDogs(); 
     } catch (error) {
       console.error("Failed to delete dog profile:", error);
@@ -38,7 +39,7 @@ const MyDogsPage = () => {
       }
 
       const trimmedName = typeof newName === 'string' ? newName.trim() : '';
-      const response = await axios.patch(`http://localhost:4000/mydogs/${dogId}`, { name: trimmedName });
+      const response = await axios.patch(JSON_SERVER + `/mydogs/${dogId}`, { name: trimmedName });
       setMyDogs(currentDogs =>
         currentDogs.map(dog => {
           if (dog.id === dogId) {
