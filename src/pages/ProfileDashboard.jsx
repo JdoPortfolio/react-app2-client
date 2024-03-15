@@ -1,38 +1,53 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useContext } from "react";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import DogCard from "../components/DogCard.jsx";
 import ProfileDogCard from "../components/ProfileDogCard.jsx";
 import { useSharedVariables } from "../context/SharedVariableContextFile.jsx";
+import Slider from "react-slick";
 
-const ProfileDashboard = () => {
+const ProfileDashboard = ({ showButton }) => {
   const location = useLocation();
   const { userCreatedProfiles, dogsData } = useSharedVariables();
 
-  const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const matchedPaws = useMemo(() => JSON.parse(decodeURIComponent(queryParams.get('matchedPaws') || '[]')), [queryParams]);
+  const { myDog, matchedDog } = useParams();
+
+  const [yourDog, setYourDog] = useState(null);
+  const [theirDog, setTheirDog] = useState(null);
+
+  const queryParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
+  const matchedPaws = useMemo(
+    () =>
+      JSON.parse(decodeURIComponent(queryParams.get("matchedPaws") || "[]")),
+    [queryParams]
+  );
 
   console.log("matchedPaws:", matchedPaws);
 
   const [matchedDogs, setMatchedDogs] = useState([]);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [messagesSent, setMessageSent] = useState([]);
 
-  useEffect(() => {
-    const getMatchedDogs = () => {
-      return dogsData.filter(dog => matchedPaws.some(matchedPaw => matchedPaw.name === dog.name));
-    };
-
-    setMatchedDogs(getMatchedDogs());
-  }, [matchedPaws, dogsData]);
-
   const handleMessageSubmit = () => {
-    if (message.trim() !== '') {
-      setMessageSent(prevMessages => [...prevMessages, message])
-      setMessage('')
+    if (message.trim() !== "") {
+      setMessageSent((prevMessages) => [...prevMessages, message]);
+      setMessage("");
     }
-  }
+  };
+
+  useEffect(() => {
+    if (dogsData.length > 0 && userCreatedProfiles.length > 0) {
+      let firstDog = userCreatedProfiles.find((dog) => dog.id == myDog);
+      let secondDogString = matchedDog.split("%20").join(" ");
+      let secondDog = dogsData.find((dog) => dog.name == matchedDog);
+      setYourDog(firstDog);
+      setTheirDog(secondDog);
+    }
+  }, [dogsData, userCreatedProfiles]);
 
   return (
     <div>
@@ -52,9 +67,10 @@ const ProfileDashboard = () => {
               class="flex h-full w-full bg-rose-500 rounded-md xl:p-3.5 tails-selected-element"
               contenteditable="true"
             >
-              <div class="flex h-full w-full bg-pink-100 rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full">
+              <div class="flex h-full w-full bg-pink-100 rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full overflow-hidden">
+                <ProfileDogCard dog={yourDog} showButton={showButton} />
               </div>
-              </div>
+            </div>
 
             <div class="flex h-full w-full bg-pink rounded-md xl:h-full xl:w-2/3">
               <div
@@ -94,17 +110,17 @@ const ProfileDashboard = () => {
               contenteditable="true"
             >
               <div class="flex h-full w-full bg-pink-100 rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full">
-                {/* Import match */}
+                <DogCard dog={theirDog} showThrowBoneButton={false} />
               </div>
             </div>
             <div className="border-rose-500 border-solid shadow-sm border-[3px] rounded-[100px] mb-3">
-        <h2>Messages Sent:</h2>
-        <ul>
-          {messagesSent.map((msg, index) => (
-            <li key={index}>{msg}</li>
-          ))}
-        </ul>
-      </div> 
+              <h2>Messages Sent:</h2>
+              <ul>
+                {messagesSent.map((msg, index) => (
+                  <li key={index}>{msg}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -150,29 +166,6 @@ const ProfileDashboard = () => {
 
 export default ProfileDashboard;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ProfileDashboard.jsx
 // import React, { useEffect, useState, useMemo } from "react";
 // import Navbar from "../components/Navbar.jsx";
@@ -206,7 +199,6 @@ export default ProfileDashboard;
 // };
 
 // export default ProfileDashboard;
-
 
 // import React, { useEffect, useState } from "react";
 // import Navbar from "../components/Navbar.jsx";

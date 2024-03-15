@@ -64,7 +64,7 @@ function EditDogPage () {
             console.log(err)
         })
         .finally(() => {
-            navigate(`/matches/${dogId}`);
+            navigate('/mydogs');
         })
   
  

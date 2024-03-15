@@ -40,7 +40,7 @@
   max-width: 350px; 
   /* border: 5px solid #E5224C; */
   border-radius: 15px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .custom-arrow {

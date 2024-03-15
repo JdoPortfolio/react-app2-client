@@ -28,7 +28,7 @@ const DogCard = ({ dog, onSelect, showThrowBoneButton = true, navigateToDashboar
   };
 
   return (
-    <div class="flex h-full w-full bg-pink-200 rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full tails-selected-element" contenteditable="true">
+    <div class="flex h-max w-full bg-pink-200 rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full tails-selected-element" contenteditable="true">
         <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl md:text-5xl xl:text-center xl:m-5 xl:text-xl xl:w-72 xl:self-center">
         {dog.name}
         </h2>

@@ -5,7 +5,6 @@ import LandingPage from './pages/LandingPage';
 import AboutPage from './pages/AboutPage';
 import ProfileDashboard from './pages/ProfileDashboard.jsx';
 import CreateProfilePage from './pages/CreateProfilePage.jsx';
-import MatchesSelectedPage from './pages/MatchSelectedPage.jsx';
 import MatchDogsPage from './pages/MatchDogsPage.jsx';
 import MyDogsPage from './pages/MyDogsPage.jsx';
 import EditDogPage from './pages/EditDogPage.jsx';
@@ -20,11 +19,11 @@ import './App.css';
 function App() {
   return (
     <SharedVariablesProvider> 
-      <div className="App">
+      <div className="App m-0">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/profile" element={<ProfileDashboard />} />
+          <Route path="/profile/:myDog/:matchedDog" element={<ProfileDashboard />} />
           <Route path="/createprofile" element={<CreateProfilePage />} />
           <Route path="/matches/:dogId" element={<MatchDogsPage />} />
           <Route path="/mydogs" element={<MyDogsPage />} />
