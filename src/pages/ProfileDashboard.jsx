@@ -53,8 +53,7 @@ const ProfileDashboard = ({ showButton }) => {
     <div>
       <Navbar />
       <section
-        class="h-[640px] bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100 tails-selected-element"
-        contenteditable="true"
+        class="h-[640px] bg-gradient-to-r  from-pink-200 via-pink-100 to-pink-50  tails-selected-element"
       >
         <div class="max-w-7xl px-5 py-20 flex flex-col space-y-5 w-full h-full items-center justify-center mx-auto">
           <div class="flex h-full w-full bg-pink rounded-md xl:w-5/12 xl:h-20">
@@ -65,7 +64,6 @@ const ProfileDashboard = ({ showButton }) => {
           <div class="flex space-x-5 w-full h-full">
             <div
               class="flex h-full w-full bg-rose-500 rounded-md xl:p-3.5 tails-selected-element"
-              contenteditable="true"
             >
               <div class="flex h-full w-full bg-pink-100 rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full overflow-hidden">
                 <ProfileDogCard dog={yourDog} showButton={showButton} />
@@ -107,58 +105,25 @@ const ProfileDashboard = ({ showButton }) => {
             </div>
             <div
               class="flex h-full w-full bg-rose-500 rounded-md xl:p-3.5 tails-selected-element"
-              contenteditable="true"
+              
             >
               <div class="flex h-full w-full bg-pink-100 rounded-md xl:text-center xl:text-sm xl:flex-col xl:w-full">
                 <DogCard dog={theirDog} showThrowBoneButton={false} />
               </div>
             </div>
-            <div className="border-rose-500 border-solid shadow-sm border-[3px] rounded-[100px] mb-3">
-              <h2>Messages Sent:</h2>
-              <ul>
-                {messagesSent.map((msg, index) => (
-                  <li key={index}>{msg}</li>
-                ))}
-              </ul>
-            </div>
           </div>
+            <div className="border-rose-500 border-solid shadow-sm border-[3px] rounded-[100px] mb-3 w-[50vw] p-2 flex-3 ">
+              <h2 className="ml-11">Messages Sent:</h2>
+              <ul className="ml-11 mr-11 overflow-y-scroll h-20 dog-chat">
+                {messagesSent.map((msg, index) => 
+                  <li style={{scrollSnapAlign: "end"}} key={index}>{msg}</li>
+                )}
+              </ul>
+              
+            </div>
         </div>
       </section>
-      {/* <div className="matches-container py-20 flex justify-between">
-        <div className="profile-dog-card-container">
-          <ProfileDogCard dog={userCreatedProfiles[0]} showButton={false} />
-        </div>
-
-        <div className="text-box-container">
-          <input 
-          className="border-rose-500 border-solid shadow-sm border-[3px] rounded-[100px] mb-3"
-          type="text" 
-          placeholder="Send bark!"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)} 
-          />
-          <button className="text-white bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-sm rounded-full text-xl px-12 py-4 text-center me-2 mb-2 ml-9 mt-8 justify-center items-center" onClick={handleMessageSubmit}>Ool to the moon!</button>
-        </div>
-
-        <div className="profile-dog-card-container">
-          <h2>Matched Paws:</h2>
-          {matchedDogs.map((dog) => (
-            <DogCard
-              key={dog.name}
-              dog={dog}
-              showThrowBoneButton={false}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="messages-container">
-        <h2>Messages Sent:</h2>
-        <ul>
-          {messagesSent.map((msg, index) => (
-            <li key={index}>{msg}</li>
-          ))}
-        </ul>
-      </div> */}
+      
       <Footer />
     </div>
   );
@@ -166,86 +131,3 @@ const ProfileDashboard = ({ showButton }) => {
 
 export default ProfileDashboard;
 
-// ProfileDashboard.jsx
-// import React, { useEffect, useState, useMemo } from "react";
-// import Navbar from "../components/Navbar.jsx";
-// import Footer from "../components/Footer.jsx";
-// import { useLocation } from "react-router-dom";
-// import DogCard from "../components/DogCard.jsx";
-// import ProfileDogCard from "../components/ProfileDogCard.jsx";
-// import { useSharedVariables } from "../context/SharedVariableContextFile.jsx";
-
-// const ProfileDashboard = () => {
-
-//   return (
-//     <div>
-//       <Navbar />
-//       <div className="matches-container py-20 flex justify-between">
-//         {/* ...existing code */}
-//         <div className="profile-dog-card-container">
-//           <h2>Matched Paws:</h2>
-//           {matchedDogs.map((dog) => (
-//             <DogCard
-//               key={dog.name}
-//               dog={dog}
-//               showThrowBoneButton={false}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default ProfileDashboard;
-
-// import React, { useEffect, useState } from "react";
-// import Navbar from "../components/Navbar.jsx";
-// import Footer from "../components/Footer.jsx";
-// import { useLocation } from "react-router-dom";
-// import DogCard from "../components/DogCard.jsx";
-// import ProfileDogCard from "../components/ProfileDogCard.jsx";
-// import { useSharedVariables } from "../context/SharedVariableContextFile.jsx";
-
-// const ProfileDashboard = () => {
-//   const location = useLocation();
-//   const queryParams = new URLSearchParams(location.search);
-//   const matchedPaws = JSON.parse(decodeURIComponent(queryParams.get('matchedPaws')));
-
-//   console.log("matchedPaws:", matchedPaws);
-
-//   const { userCreatedProfiles, dogsData } = useSharedVariables();
-
-//   const [matchedDogs, setMatchedDogs] = useState([]);
-
-//   useEffect(() => {
-//     const getMatchedDogs = () => {
-//       return dogsData.filter(dog => matchedPaws.some(matchedPaw => matchedPaw.name === dog.name));
-//     };
-
-//     setMatchedDogs(getMatchedDogs());
-//   }, [matchedPaws, dogsData]);
-
-//   return (
-//     <div>
-//       <Navbar />
-//       <div className="matches-container py-20 flex justify-between">
-//         <div className="profile-dog-card-container">
-//           {/* Assuming you have a dog profile from userCreatedProfiles */}
-//           <ProfileDogCard dog={userCreatedProfiles[0]} />
-//         </div>
-
-//         <div className="profile-dog-card-container">
-//           <h2>Matched Paws:</h2>
-//           {matchedDogs.map((dog) => (
-//             <DogCard key={dog.name} dog={dog} />
-//           ))}
-//         </div>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default ProfileDashboard;

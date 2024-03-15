@@ -95,7 +95,7 @@ return (
 
   <div className="flex flex-col">
   <Navbar/>
-  <div className="flex flex-col items-center px-5 w-full max-w-full">
+  <div className="flex flex-col items-center px-5 w-full max-w-full bg-gradient-to-r  from-pink-200 via-pink-100 to-pink-50">
    
     <div className="mt-28 text-3xl font-semibold text-center text-black capitalize whitespace-nowrap max-md:mt-10">
          Tell us about your dog ...</div>
@@ -119,7 +119,7 @@ return (
             <img
             loading="lazy"
             src={dogProfile.photo || "https://cdn.builder.io/api/v1/image/assets/TEMP/e8dc44577a4590f992f89728547fa7798b3f31d3c4844beae15ba5c9685e34d3?apiKey=319352577b174a1ea58e2124bae2c0e0&"}
-            className="mt-11 max-w-full shadow-sm aspect-square w-[100px] max-md:mt-10"/>
+            className=" border-4 rounded-lg border-red-500 mt-11 max-w-full shadow-sm aspect-square w-[100px] max-md:mt-10"/>
           <input type="file" onChange={handlePhotoChange} style={{ display: 'none' }} />
           </label>
 

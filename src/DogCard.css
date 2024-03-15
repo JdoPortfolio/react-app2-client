@@ -1,20 +1,4 @@
-/* .dog-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px;
-    width: 300px; 
-  }
-  
-  .dog-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .dog-attributes {
-    margin-top: 16px;
-  } */
+
   
 .dog-card {
   border-radius:40px;
@@ -34,6 +18,22 @@
     margin-top: 16px;
 }
 
+
+
+
+.dog-card button {
+  background-color: #3498db  !important;
+  
+}
+
+.dog-card button {
+  background-color: #e74c3c !important;
+}
+.matches-button {
+  background-color: green !important;
+} */
+
+/* Base styles for all buttons inside .dog-card */
 .dog-card button {
   cursor: pointer;
   border: none;
@@ -42,22 +42,55 @@
   margin: 5px;
   color: white;
   font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.dog-card button:hover {
-  opacity: 0.9;
+  transition: all 0.3s ease; /* Adjusted to 'all' for transitioning other properties like box-shadow */
 }
 
 
-.dog-card button:first-of-type {
-  background-color: #3498db;
+.dog-card button.edit, .dog-card button.delete {
+  background-color: #3498db; /* Blue for Edit */
+}
+
+.dog-card button.delete {
+  background-color: #e74c3c; /* Red for Delete, no need for !important if specificity is managed well */
   
 }
 
-.dog-card button:last-of-type {
-  background-color: #e74c3c;
+/* Enhanced hover state */
+.dog-card button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px); /* Slight move up */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* Soft shadow for depth */
 }
+
+/* Specific styles for ".matches-button" */
 .matches-button {
-  background-color: green !important;
+  border-radius:  20px;
+  background-color: green; /* Distinct color for matches button, !important should be avoided if possible */
+  color: white;
+  padding: 5px;
+  border-width: 1px;
+}
+
+.matches-button:hover {
+  /* Inherits hover effects from .dog-card button:hover */
+}
+
+.edit-button {
+  background-color: #3498db;
+  border-radius:  20px;
+  color: white;
+  padding: 5px;
+  padding-left: 5px;
+  border-color: white;
+  border-width: 1px;
+
+}
+
+.delete-button {
+  background-color: #e74c3c; 
+  border-radius:  20px;
+  color: white;
+  padding: 5px;
+  border-width: 1px;
+
 }

@@ -2,11 +2,10 @@ import { SharedVariablesProvider } from "../context/SharedVariableContextFile.js
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import 'flowbite';
-import Logo from "../assets/logoipsum.svg";
 import Dog1 from "../assets/Dogone.jpg";
 import BoneIcon from "../assets/boneicon.png";
 import CreateProfilePage from "./CreateProfilePage.jsx";
-
+import LogoFade from "../assets/pw-fade.png";
 //Page components:
 
 //Components:
@@ -19,14 +18,14 @@ import * as React from "react";
 
 function LandingPage() {
   return (
-    <div className="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100 h-screen">
-      <nav className=" bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100">
+    <div className="bg-gradient-to-r  from-pink-200 via-pink-100 to-pink-50 h-screen">
+      <nav className=" bg-gradient-to-r  from-pink-200 via-pink-100 to-pink-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ml-5 pt-5">
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img src={Logo} className="h-8" alt="Logo" />
+            <img src={LogoFade} className="h-14" alt="Logo" />
           </a>
           <button
             data-collapse-toggle="navbar-default"
@@ -39,20 +38,16 @@ function LandingPage() {
           </button>
         </div>
       </nav>
-      {/* <span className="bg-pink-100 text-pink-800 text-lg font-medium me-2 px-2 py-4 ml-80 mr-80 rounded-full dark:bg-pink-900 dark:text-rose-500 flex flex-wrap items-center justify-center">
-        {" "}
-        🐾🐾🐾🐾 4.9 / 5 stars by 100+ customers
-      </span> */}
-      {/* <div class="max-w-7xl px-5 py-20 flex space-x-5 w-full h-full items-center justify-center mx-auto tails-selected-element" contenteditable="true"></div> */}
+      
       <section
-        class="h-[700px] from-pink-300 via-pink-200 to-pink-100 tails-selected-element"
-        contenteditable="true"
+        class="h-[700px] bg-gradient-to-r from-pink-200 via-pink-100 to-pink-50 tails-selected-element"
+      
       >
         <div class="max-w-7xl px-5 py-6 flex flex-col space-y-5 w-full h-full items-center justify-center mx-auto ">
           <div class="flex h-full w-full bg-pink rounded-md xl:h-28 xl:w-6/12">
             <a
               href="#"
-              class="inline-flex items-center justify-center px-5 py-3 text-base font-md text-rose-800 bg-pink-500 border border-transparent rounded-md shadow hover:bg-rose-400 md:bg-pink-200 md:rounded-full xl:font-normal xl:w-10/12 xl:self-center xl:content-center xl:flex xl:h-20 xl:text-xl xl:mx-12 tails-selected-element"
+              class="inline-flex items-center justify-center px-5 py-3 text-base font-md text-rose-800 bg-pink-200 border border-transparent rounded-md shadow md:bg-pink-50 md:rounded-full xl:font-normal xl:w-10/12 xl:self-center xl:content-center xl:flex xl:h-20 xl:text-xl xl:mx-12 tails-selected-element"
               data-primary="pink-600"
               data-rounded="rounded-md"
             >
@@ -101,37 +96,7 @@ function LandingPage() {
           </div>
         </div>
       </section>
-      {/* <div className="mt-28 max-md:mt-10 max-md:max-w-full">
-        <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-          <div className="flex flex-col w-[59%] max-md:ml-0 max-md:w-full">
-            <div className="flex flex-col font-bold text-center max-md:mt-10 max-md:max-w-full">
-            <h2 className="mb-1 text-4xl pl-8 pr-3 pt-2 justify-center font-extrabold leading-8 tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white ">The top Match-maker for <span class="text-rose-500 dark:text-rose-500">canine companions</span></h2>
-              <div className="flex flex-col pl-16 mt-6 max-md:pl-5 max-md:mt-10 max-md:max-w-full">
-                <div className="flex items-center justify-center">
-                 <img src={BoneIcon} alt="bone-icon" className="w-12 h-12 mr-4" /> 
-                 <h1 className="text-2xl tracking-widest text-rose-500 uppercase max-md:max-w-full"> Find Your DOG’S Perfect Pal</h1>
-                </div>
-                <div className="mt-7 font-thin px-9 leading-8 justify-center text-center">
-                  <p> Connect with local tail-waggers and set up playdates or find a compatible mate for your furry friend. It's all about making sure your dog has the right company for fun days out or a lifetime of pawsome memories</p>
-                </div>
-                <div>
-                <Link to="/createprofile">     
-                <button className="text-white bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-sm rounded-full text-xl px-12 py-4 text-center me-2 mb-2 ml-9 mt-8 justify-center items-center">
-                    Create Your Profile 
-                </button>
-                </Link>
-                
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col ml-5 w-[41%] max-md:ml-0 max-md:w-full rounded-full">
-            <img src={Dog1} className="grow border-rose-500 border-solid shadow-sm aspect-[0.85] border-[10px] rounded-lg mr-10 max-w-[521px] max-md:mt-10 max-md:max-w-full"
-            />
-      </div>
-    </div>
-    </div> */}
+      
       <Footer />
     </div>
   );
