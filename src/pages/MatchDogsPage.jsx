@@ -65,7 +65,8 @@ const MatchDogsPage = () => {
         Math.abs(dog.protectiveness - profile.protectiveness) <= 1 &&
         Math.abs(dog.good_with_strangers - profile.good_with_strangers) <= 1 &&
         Math.abs(dog.trainability - profile.trainability) <= 1 &&
-        Math.abs(dog.energy - profile.energy) <= 1     
+        Math.abs(dog.energy - profile.energy) <= 1  && 
+        Math.abs(dog.playfulness - profile.playfulness) <= 1
       );
     });
   };
